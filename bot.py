@@ -1162,9 +1162,41 @@ def inline(call):
         bot.answer_callback_query(call.id, 'Вы успешно сняли оружие!')
       else:
         pass
+   
+  elif call.data=='attack':
+      x=findgame(call.from_user.id)
+      game=x[0]
+      player=x[1]
+      if game!=None and player!=None:
+         for ids in game['bots']:
+            if game['bots'][ids]['id']!=call.from_user.id:
+               if game['bots'][ids]['distance']==0 or player['distance']==0 or player['weapontype']=='ranged':
+                  kb.add(types.InlineKeyboardButton(text=game['bots'][ids]['name'], callback_data='attack '+str(game['bots'][ids]['id'])))
+  elif 'attack' in call.data:
+     x=findgame(call.from_user.id)
+     game=x[0]
+     player=x[1]
+     if game!=None and player!=None:
+         x=call.data.split(' ')
+         id=int(x[1])
+         pass
+
            
       
-          
+def findgame(callid):
+      game=None
+      for ids in games:
+       for bots in games[ids]['bots']:
+         if games[ids]['bots'][bots]['id']==callid:
+             game=games[ids]
+      if game!=None:
+         player=None
+         for ids in game['bots']:
+            if game['bots'][ids]['id']==callid:
+               player=game['bots'][ids]
+      return [game,player]
+         
+         
               
   
       
