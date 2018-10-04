@@ -25,19 +25,14 @@ skills=[]
 
 client1=os.environ['database']
 client=MongoClient(client1)
-db=client.cookiewars
+db=client.cookiewarsplayers
 users=db.users
 
-client2=os.environ['database2']
-client3=MongoClient(client2)
-db2=client3.trug
-userstrug=db2.users
 
-
-@bot.message_handler(commands=['referal'])
-def ref(m):
-   bot.send_message(m.chat.id, 'Присоединяйся к игре CookieWars! Прокачай своего бойца, отправь в бой и наслаждайся тем, как он сам уничтожает соперника!\n'+
-                    'https://telegram.me/cookiewarsbot?start='+str(m.from_user.id))
+#@bot.message_handler(commands=['referal'])
+#def ref(m):
+#   bot.send_message(m.chat.id, 'Присоединяйся к игре CookieWars! Прокачай своего бойца, отправь в бой и наслаждайся тем, как он сам уничтожает соперника!\n'+
+#                    'https://telegram.me/cookiewarsplayersbot?start='+str(m.from_user.id))
 
 @bot.message_handler(commands=['nextgame'])
 def nextgame(m):
@@ -80,41 +75,41 @@ def upd(m):
             print('yes')
             
             
-@bot.message_handler(commands=['massbattle'])
-def upd(m):
-        if m.from_user.id==441399484:
-            users.update_many({}, {'$inc':{'joinbots':1}})
-            bot.send_message(m.chat.id, 'Каждому игроку был выдан 1 джойн бот!')
+#@bot.message_handler(commands=['massbattle'])
+#def upd(m):
+#        if m.from_user.id==441399484:
+#            users.update_many({}, {'$inc':{'joinbots':1}})
+#            bot.send_message(m.chat.id, 'Каждому игроку был выдан 1 джойн бот!')
 
 
-@bot.message_handler(commands=['donate'])
-def donate(m):
-   bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+
-                    'Курс: 1000⚛ за 100 рублей. Для совершения платежа, переведите желаемую сумму (не меньше 50р) на карту:\n'+
-                    '`5336 6900 5562 4037`, указав свой ник (через @).\nКак только я зайду в сеть, то начислю поинты в соответствии с курсом.\n'+
-                    'При покупке от 500р начисляется бонус - дополнительные 1000⚛. При сумме покупок больше, чем на 800р - уникальные смайлики для хп в подарок!\nТак же их можно купить за 300 рублей.', parse_mode='markdown')
+#@bot.message_handler(commands=['donate'])
+#def donate(m):
+#   bot.send_message(m.chat.id, 'Донат - покупка игровых ресурсов за реальные деньги.\n'+
+#                    'Курс: 1000⚛ за 100 рублей. Для совершения платежа, переведите желаемую сумму (не меньше 50р) на карту:\n'+
+#                    '`5336 6900 5562 4037`, указав свой ник (через @).\nКак только я зайду в сеть, то начислю поинты в соответствии с курсом.\n'+
+#                    'При покупке от 500р начисляется бонус - дополнительные 1000⚛. При сумме покупок больше, чем на 800р - уникальные смайлики для хп в подарок!\nТак же их можно купить за 300 рублей.', parse_mode='markdown')
             
             
-@bot.message_handler(commands=['autojoin'])
-def autojoin(m):
-  if m.from_user.id==m.chat.id:
-    enable='☑️'
-    x=users.find_one({'id':m.from_user.id})
-    if x['enablejoin']==1:
-         enable='✅'
-    kb=types.InlineKeyboardMarkup()
-    kb.add(types.InlineKeyboardButton(text='Купить джойн-ботов', callback_data='buyjoin'))
-    kb.add(types.InlineKeyboardButton(text=enable+'Активировать джойн-ботов', callback_data='usejoin'))
-    bot.send_message(m.chat.id, 'Выберите действие.', reply_markup=kb)
-  else:
-      bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
+#@bot.message_handler(commands=['autojoin'])
+#def autojoin(m):
+#  if m.from_user.id==m.chat.id:
+#    enable='☑️'
+#    x=users.find_one({'id':m.from_user.id})
+#    if x['enablejoin']==1:
+#         enable='✅'
+#    kb=types.InlineKeyboardMarkup()
+#    kb.add(types.InlineKeyboardButton(text='Купить джойн-ботов', callback_data='buyjoin'))
+#    kb.add(types.InlineKeyboardButton(text=enable+'Активировать джойн-ботов', callback_data='usejoin'))
+#    bot.send_message(m.chat.id, 'Выберите действие.', reply_markup=kb)
+#  else:
+#      bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
 
 #@bot.message_handler(commands=['xxxx'])
 #def xxxx(m):
 #   users.update_one({'id':m.reply_to_message.from_user.id}, {'$set':{'bot.weapon':None}})
 #   bot.send_message(m.chat.id, 'Всё')
 
-def createboss(id):
+e='''def createboss(id):
     return{'name': 'Босс',
               'weapon':'light',
               'skills':[],
@@ -148,7 +143,7 @@ def createboss(id):
               'exp':0,
               'gipnoz':0,
               'weapons':['hand']}
-
+'''
 
 def createpauk(id):
     return{id-(id*2):{'name': 'Паук',
@@ -196,42 +191,7 @@ def createpauk(id):
 
 @bot.message_handler(commands=['weapons'])
 def weapon(m):
-  if userstrug.find_one({'id':m.from_user.id}) is not None:
-   try:
-    if m.chat.id==m.from_user.id:
-     y=userstrug.find_one({'id':m.from_user.id})
-     x=users.find_one({'id':m.from_user.id})
-     kb=types.InlineKeyboardMarkup()
-     if '🔫' in y['inventory']:
-         pistol='✅'
-     if '☄' in y['inventory']:
-         rock='✅'
-     if '⚙' in y['inventory']:
-         saw='✅'
-     if '🗡' in y['inventory']:
-         kinzhal='✅'
-     if '🗡' in y['inventory']:
-         bow='✅'
-     kb.add(types.InlineKeyboardButton(text='Кулаки', callback_data='equiphand'))
-     if '🔫' in y['inventory']:
-         kb.add(types.InlineKeyboardButton(text='Пистолет', callback_data='equippistol'))
-     if '☄' in y['inventory']:
-         kb.add(types.InlineKeyboardButton(text='Камень', callback_data='equiprock'))
-     if '⚙' in y['inventory']:
-         kb.add(types.InlineKeyboardButton(text='Пилострел', callback_data='equipsaw'))
-     if '🗡' in y['inventory']:
-         kb.add(types.InlineKeyboardButton(text='Кинжал', callback_data='equipkinzhal'))
-     if '🏹' in y['inventory']:
-         kb.add(types.InlineKeyboardButton(text='Лук', callback_data='equipbow'))
-     kb.add(types.InlineKeyboardButton(text='Снять текущее оружие', callback_data='gunoff'))
-     kb.add(types.InlineKeyboardButton(text='Закрыть меню', callback_data='close'))
-     bot.send_message(m.chat.id, 'Для того, чтобы надеть оружие, нажмите на его название', reply_markup=kb)
-   except:
-       pass
-  else:
-    kb=types.InlineKeyboardMarkup()
-    kb.add(types.InlineKeyboardButton('👤❇️| Авторизоваться', url='t.me/TrugRuBot?start=switch_to_pm'))
-    bot.send_message(m.chat.id, 'Чтобы получить доступ к этому разделу, авторизуйтесь в TRUG')
+   pass
 
 
 @bot.message_handler(commands=['skins'])
@@ -416,7 +376,7 @@ def me(m):
   else:
       try:
         x=users.find_one({'id':m.reply_to_message.from_user.id})
-        bot.send_message(m.chat.id, 'Ваши поинты: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'❇️\nДжоин боты: '+str(x['joinbots'])+'🤖\nСыграно матчей: '+str(x['games']))#+'\n🎖Ранг: '+rang)
+        bot.send_message(m.chat.id, 'Поинты выбранного игрока: '+str(x['cookie'])+'⚛️\nОпыт бойца: '+str(x['bot']['exp'])+'🤖\nСыграно матчей: '+str(x['games']))#+'\n🎖Ранг: '+rang)
       except:
         pass
 
@@ -430,20 +390,7 @@ def k(m):
       bot.send_message(m.chat.id, x[1]+'⚛️ поинтов успешно выдано!')
     except:
         pass
-
-      
-      
-@bot.message_handler(commands=['j'])
-def j(m):
-  if m.from_user.id==441399484 or m.from_user.id==55888804:
-    x=m.text.split('/j')
-    try:
-      int(x[1])
-      users.update_one({'id':m.reply_to_message.from_user.id}, {'$inc':{'joinbots':int(x[1])}})
-      bot.send_message(m.chat.id, x[1]+'🤖 джойн-ботов успешно выдано!')
-    except:
-        pass
-                
+         
 
 @bot.message_handler(commands=['dailybox'])
 def buy(m):
@@ -483,11 +430,6 @@ def name(m):
     else:
        bot.send_message(m.chat.id, 'Для переименования используйте формат:\n/name *имя*, где *имя* - имя вашего бойца.', parse_mode='markdown')
         
-
-@bot.message_handler(commands=['stop'])
-def stopm(m):
-  if m.from_user.id in info.lobby.game:
-    del info.lobby.game[m.from_user.id]
   
 def itemselect():
     x=[]
@@ -1221,50 +1163,6 @@ def inline(call):
       else:
         pass
            
-  elif call.data=='buyjoin':
-      y=users.find_one({'id':call.from_user.id})
-      kb=types.InlineKeyboardMarkup()
-      kb.add(types.InlineKeyboardButton(text='+1🤖', callback_data='+1'),types.InlineKeyboardButton(text='+2🤖', callback_data='+2'),types.InlineKeyboardButton(text='+5🤖', callback_data='+5'))
-      kb.add(types.InlineKeyboardButton(text='+10🤖', callback_data='+10'),types.InlineKeyboardButton(text='+50🤖', callback_data='+50'),types.InlineKeyboardButton(text='+100🤖', callback_data='+100'))
-      kb.add(types.InlineKeyboardButton(text='-1🤖', callback_data='-1'),types.InlineKeyboardButton(text='-2🤖', callback_data='-2'),types.InlineKeyboardButton(text='-5🤖', callback_data='-5'))
-      kb.add(types.InlineKeyboardButton(text='-10🤖', callback_data='-10'),types.InlineKeyboardButton(text='-50🤖', callback_data='-50'),types.InlineKeyboardButton(text='-100🤖', callback_data='-100'))
-      kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots'))
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️',call.message.chat.id, call.message.message_id,  reply_markup=kb)
-      
-  elif call.data=='buyjoinbots':
-      y=users.find_one({'id':call.from_user.id})
-      if y['currentjoinbots']*10<=y['cookie']:
-        x=y['currentjoinbots']
-        users.update_one({'id':call.from_user.id}, {'$inc':{'joinbots':y['currentjoinbots']}})
-        users.update_one({'id':call.from_user.id}, {'$inc':{'cookie':-(y['currentjoinbots']*10)}})
-        users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
-        medit('Вы успешно приобрели '+str(x)+'🤖 джойн-ботов!', call.message.chat.id, call.message.message_id)
-      else:
-        medit('Недостаточно поинтов!', call.message.chat.id, call.message.message_id)
-      
-  elif call.data=='usejoin':
-      x=users.find_one({'id':call.from_user.id})
-      if x['enablejoin']==0:
-          users.update_one({'id':call.from_user.id}, {'$set':{'enablejoin':1}})
-          medit('Автоджоин успешно включён!', call.message.chat.id, call.message.message_id)
-      else:
-          users.update_one({'id':call.from_user.id}, {'$set':{'enablejoin':0}})
-          medit('Автоджоин успешно выключен!', call.message.chat.id, call.message.message_id)
-        
-  else:
-      kb=types.InlineKeyboardMarkup()
-      kb.add(types.InlineKeyboardButton(text='+1🤖', callback_data='+1'),types.InlineKeyboardButton(text='+2🤖', callback_data='+2'),types.InlineKeyboardButton(text='+5🤖', callback_data='+5'))
-      kb.add(types.InlineKeyboardButton(text='+10🤖', callback_data='+10'),types.InlineKeyboardButton(text='+50🤖', callback_data='+50'),types.InlineKeyboardButton(text='+100🤖', callback_data='+100'))
-      kb.add(types.InlineKeyboardButton(text='-1🤖', callback_data='-1'),types.InlineKeyboardButton(text='-2🤖', callback_data='-2'),types.InlineKeyboardButton(text='-5🤖', callback_data='-5'))
-      kb.add(types.InlineKeyboardButton(text='-10🤖', callback_data='-10'),types.InlineKeyboardButton(text='-50🤖', callback_data='-50'),types.InlineKeyboardButton(text='-100🤖', callback_data='-100'))
-      kb.add(types.InlineKeyboardButton(text='Купить', callback_data='buyjoinbots'))
-      y=users.find_one({'id':call.from_user.id})
-      if y['currentjoinbots']+int(call.data)<0:
-          users.update_one({'id':call.from_user.id}, {'$set':{'currentjoinbots':0}})
-      else:
-          users.update_one({'id':call.from_user.id}, {'$inc':{'currentjoinbots':int(call.data)}})
-      y=users.find_one({'id':call.from_user.id})
-      medit('Выберите количество джойн-ботов для покупки.\nОдин стоит 10⚛️ поинтов.\nТекущее количество: '+str(y['currentjoinbots'])+'.\nСуммарная стоимость: '+str(y['currentjoinbots']*10)+'⚛️', call.message.chat.id, call.message.message_id, reply_markup=kb)
       
           
               
@@ -1283,7 +1181,7 @@ def battle(id):
   for bots in games[id]['bots']:
    if games[id]['bots'][bots]['die']!=1:
     if games[id]['bots'][bots]['stun']<=0:
-     games[id]['bots'][bots][act(bots, id)]=1
+     act(bots, id)
   results(id)
  except:
       bot.send_message(id, 'Произошла ошибка! Сбрасываю игру.')
@@ -2194,159 +2092,43 @@ def item(bot, id):
 
 def actnumber(bot, id):  
   a=[]
-  npc=games[id]['bots'][bot]
-  if npc['energy']>0 and npc['energy']<=2:
-    x=random.randint(1,100)
-    if npc['weapon']!='hand':
-     if x<=20:
-       attack=1
+  player=games[id]['bots'][bot]
+  kb=types.InlineKeyboardMarkup()
+  if player['weapontype']=='ranged':
+        weaponreload='Перезарядка'
+  else:
+        weaponreload='Отдышаться'
+  if player['energy']>0:
+     for ids in games[id]['bots']:
+        if player['distance']==0 or player['weapontype']=='ranged' or games[id]['bots'][ids]['distance']==0:
+            attack=1
+     if attack==1:
+        kb.add(types.InlineKeyboardButton(text='Атака', callback_data='attack'),types.InlineKeyboardButton(text=weaponreload, callback_data='reload'))
      else:
-       attack=0
-    else:
-     if npc['accuracy']>=-5:
-      if x<=75:
-        attack=1
-      else:
-        attack=0
-     else:
-       if x<=30:
-         attack=1
-       else:
-         attack=0
-  elif npc['energy']>=3:
-    x=random.randint(1,100)
-    if npc['weapon']!='hand':
-      if x<=75:
-        attack=1
-      else:
-        attack=0
-    else:
-      attack=1
+        kb.add(types.InlineKeyboardButton(text='Подойти', callback_data='gotoenemy'),types.InlineKeyboardButton(text=weaponreload, callback_data='reload'))
   else:
-    attack=0
+      kb.add(types.InlineKeyboardButton(text=weaponreload, callback_data='reload'))
+  if player['yvorotkd']<=0:
+     kb.add(types.InlineKeyboardButton(text='Уворот', callback_data='yvorot'),types.InlineKeyboardButton(text='Инфо', callback_data='info'))
+  else:
+     kb.add(types.InlineKeyboardButton(text='Инфо', callback_data='info'))
+  if len(player['items']>0:
+     kb.add(types.InlineKeyboardButton(text='Предметы и способности', callback_data='itemsabilities'))
+  kb.add(types.InlineKeyboardButton(text='Пропустить', callback_data='skip'))
     
-  x=random.randint(1,100)  
-  low=0
-  enemy=[]
-  for mob in games[id]['bots']:
-       if 0 not in games[id]['bots'] or games[id]['bots'][mob]['id']==0:
-              if games[id]['bots'][mob]['id']!=npc['id']:
-                     enemy.append(games[id]['bots'][mob])
-       else:
-              enemy.append(games[id]['bots'][0])
-  for mob in enemy:
-   if mob['energy']<=2 or mob['stun']>0 or mob['die']==1:
-    low+=1
-  if low>=len(enemy):
-   yvorot=0
-  else:
-   if npc['energy']<=2:
-    if x<=50 and npc['yvorotkd']<=0:
-      yvorot=1
-    else:
-      yvorot=0
-   elif npc['energy']>=3:
-      x=random.randint(1,100)
-      if x<=25 and npc['yvorotkd']<=0:
-        yvorot=1
-      else:
-        yvorot=0
-   if 'shieldgen' in npc['skills'] and npc['shieldgen']<=0 and low<len(enemy):
-      yvorot=1
-        
-  x=random.randint(1,100)
-  if len(npc['skills'])>0 and 'active' in npc['skills']:
-    if 'gipnoz' in npc['skills'] and npc['gipnoz']<=0:
-        if low==len(enemy):
-           gipn=0
-        else:
-            gipn=1
-            npc['mainskill'].append('gipnoz')
-            skill=1
-    else:
-        gipn=0
-    if gipn==0:
-        skill=0
-    else:
-        skill=1       
-  else:
-    skill=0
-  if 'medic' in npc['skills'] and npc['heal']<=0:
-      skill=1
-      npc['mainskill'].append('medic')
-        
-  if len(npc['items'])>0:
-    knife=0
-    flash=0
-    if 'flash' in npc['items']:
-        if low>=len(enemy):
-            flash=0
-        else:
-            flash=1
-            npc['mainitem'].append('flash')
-    if 'knife' in npc['items'] and npc['energy']>=2:
-        knife=1
-        npc['mainitem'].append('knife')
-    if knife==1 or flash==1:      
-        x=random.randint(1,100)
-        if x<=50:
-            item=1
-        else:
-            item=0
-    else:
-       item=0
-  else:
-    item=0
-  reload=0
-  if attack==0 and yvorot==0 and item==0 and skill==0:
-    if npc['energy']>=3:
-      attack=1
-    else:
-      reload=1
-  else:
-    reload=0
-    
-  return{'attack':{'name':'attack', 'x':attack}, 'yvorot':{'name':'yvorot', 'x':yvorot}, 'item':{'name':'item', 'x':item}, 'reload':{'name':'reload', 'x':reload},'skill':{'name':'skill', 'x':skill}}
          
       
       
  
 
 def act(bot, id):
-  actions=actnumber(bot, id)
-  curact=[]
-  for item in actions:
-    if actions[item]['x']==1:
-      curact.append(actions[item]['name'])
-  x=random.randint(1, len(curact))
-  return curact[x-1]
-  
+  actnumber(bot, id)
 
 
 @bot.message_handler(commands=['help'])
 def helpp(m):
   if m.from_user.id==m.chat.id:
-    bot.send_message(m.chat.id, '''Игра "CookieWars". Главная суть игры в том, что вам в процессе игры делать ничего не надо - боец сам 
-выбирает оптимальные действия. Вы только должны будете экипировать ему скиллы и оружие, и отправить в бой.\n\n
-*Как отправить бойца на арену?*\nДля этого надо начать игру в чате @cookiewarsru, нажав команду /begin. После этого другие игроки жмут 
-кнопку "Присоединиться", которая появится после начала игры в чате, пуская своих бойцов на арену. Когда все желающие присоединятся, 
-кто-то должен будет нажать команду /go, и игра начнётся. Если в игре участвует больше, чем 2 бойца, они сами будут решать, какую 
-цель атаковать.\n\n*Теперь про самого бойца.*\nКаждый боец имеет следующие характеристики:\nЗдоровье\nЭнергия\nОружие\nСкиллы
-Скин\n\nТеперь обо всём по порядку.\n*Здоровье* - показатель количества жизней бойца. Стандартно у всех 4 жизни, но с помощью 
-скиллов можно увеличить этот предел. Потеря здоровья происходит по такому принципу: кто за ход получил урона больше остальных, тот и теряет жизни. 
-Если несколько бойцов получили одинаково много урона, то все они потеряют здоровье. Сколько единиц - зависит от принятого урона.
-Стандартно, за каждые 6 единиц урона по бойцу он теряет дополнительную жизнь. То есть, получив 1-5 урона, боец потеряет 1 хп. Но получив 6 урона, 
-боец потеряет 2 хп, а получив 12 - 3. Предел урона можно увеличить с помощью скиллов. Разберём пример:\n
-Боец Вася, Петя и Игорь бьют друг друга. Вася нанёс Пете 3 урона, Петя нанёс Васе 2 урона, а Игорь нанёс 3 урона Васе. Считаем полученный бойцами урон:\n
-Вася: 5\nПетя:3\nИгорь:0\nВ итоге Вася потеряет 1 хп, а остальные не потеряют ничего, кроме потраченной на атаку энергии. Об этом позже.\n
-*Энергия*\nПочти на каждое действие бойцы тратят энергию. Стандартно её у всех по 5 единиц. Каждое оружие тратит определённое количество 
-энергии за атаку, некоторые скиллы тоже. Чем меньше энергии в данный момент, тем меньше шанс промахнуться по врагу. Иногда боец должен 
-тратить ход на перезарядку, восстанавливая всю энергию.\n
-*Оружие*\nКаждое оружие в игре уникально и имеет свои особенности. Про них можно узнать в Траг боте, выбивая оружие из лутбоксов.\n
-*Скиллы* - Важная часть игры. За заработанные в боях или выбитые в Траг ⚛️поинты вы можете приобрести полезные скиллы для вашего бойца. О них в /upgrade.
-Но купить скилл мало - его надо *экипировать*. Делается это командой /inventory. Максимум можно надеть на себя 2 скилла.\n
-*Скины*\nСкины - личность вашего бойца, дающая дополнительную способность, не конкурирующую со скиллами. Подробнее: /upgrade.\n
-Зовите друзей, выпускайте бойцов на арену - и наслаждайтесь зрелищем!
+    bot.send_message(m.chat.id, '''Неизвестно
 ''', parse_mode='markdown')
   else:
       bot.send_message(m.chat.id, 'Можно использовать только в личке бота!')
@@ -2375,25 +2157,14 @@ def start(m):
         pass
   if users.find_one({'id':m.from_user.id})==None:
         try:
-            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру "CookieWars"! Вам был выдан начальный персонаж - селянин. В будущем вы можете улучшить его за куки! Подробнее об игре можно узнать с помощью команды /help.')
+            bot.send_message(m.from_user.id, 'Здраствуйте, вы попали в игру ""!')
             users.insert_one(createuser(m.from_user.id, m.from_user.username, m.from_user.first_name))
         except:
             bot.send_message(m.chat.id, 'Напишите боту в личку!')
         x=users.find({})
         z=m.text.split('/start')
         print(z)
-        i=0
-        for ids in x:
-            if ids['id']==int(z[1]):
-               i=1
-        if i==1:
-           print('i=1')
-           users.update_one({'id':int(z[1])}, {'$push':{'referals':m.from_user.id}})
-           users.update_one({'id':m.from_user.id}, {'$set':{'inviter':int(z[1])}})
-           try:
-             bot.send_message(int(z[1]), 'По вашей ссылке зашёл пользователь '+m.from_user.first_name+'! По мере достижения им званий вы будете получать за него бонус - половину от его награды за звание.')
-           except:
-             pass
+        
     
   
 @bot.message_handler(commands=['go'])
@@ -2417,24 +2188,6 @@ def starttimer(id):
             del games[id]
    
    
-@bot.message_handler(commands=['withoutautojoin'])
-def withoutauto(m):
-   # if m.chat.id==-1001208357368:#-229396706:
-     if m.chat.id not in games and m.from_user.id==441399484:
-        games.update(creategame(m.chat.id))
-        t=threading.Timer(300, starttimer, args=[m.chat.id])
-        t.start()
-        kb=types.InlineKeyboardMarkup()
-        kb.add(types.InlineKeyboardButton(text='Присоединиться', url='telegram.me/cookiewarsbot?start='+str(m.chat.id)))
-        bot.send_message(m.chat.id, 'Игра началась! Автостарт через 5 минут.\n\n', reply_markup=kb)
-        x=users.find({})
-        for idss in x:
-          if idss['id']!=0:
-            if idss['ping']==1:
-               try:
-                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
-               except:
-                  pass
    
    
 @bot.message_handler(commands=['begin'])
@@ -2450,26 +2203,15 @@ def begin(m):
         x=users.find({})
         if m.chat.id==-1001208357368:
          text=''
-         for ids in x:
-          if ids['id']!=0:
-            if ids['enablejoin']==1 and ids['joinbots']>0:
-               games[m.chat.id]['bots'].update(createbott(ids['id'], ids['bot']))
-               games[m.chat.id]['ids'].append(ids['id'])
-               users.update_one({'id':ids['id']}, {'$inc':{'joinbots':-1}})
-               text+=ids['name']+' (боец '+ids['bot']['name']+') присоединился! (🤖Автоджоин)\n'
-         bot.send_message(m.chat.id, text)
          x=users.find({})
          for idss in x:
           if idss['id']!=0:
             if idss['ping']==1:
               
                try:
-                  bot.send_message(idss['id'], 'В чате @cookiewarsru началась игра!') 
+                  bot.send_message(idss['id'], 'В чате @None началась игра!') 
                except:
                   pass
-               
-        if m.chat.id!=-1001208357368:
-         bot.send_message(441399484, 'Где-то началась игра!')
  
 
    
@@ -2533,7 +2275,7 @@ def begingame(id):
               if skill!=randomm and skill!='active':
                     text+=skilltoname(skill)+'\n'
         text+='\n'
-    bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
+    #bot.send_message(id, 'Экипированные скиллы:\n\n'+text)
     giveitems(games[id])
     games[id]['started2']=1
     battle(id)
@@ -2619,6 +2361,7 @@ def creategame(id):
 def createbot(id):
   return {'name': None,
               'weapon':'hand',
+              'weapontype':None,
               'skills':[],
               'team':None,
               'hp':4,
@@ -2654,7 +2397,8 @@ def createbot(id):
               'mainitem':[],
               'weapons':['hand'],
               'gipnoz':0,
-              'bowcharge':0
+              'bowcharge':0,
+              
 }
 
 def dailybox():
